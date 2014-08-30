@@ -19,12 +19,12 @@ def read_csv(filename, delimiter=",", skip=0):
     f.close()
 
 
-def write_csv(filename, fieldnames, data=None, rows=None):
+def write_csv(filename, fieldnames, data=None, rows=None, mode="w"):
     """Write the data to the specified filename
     
     Usage
     -----
-    >>> write_csv(filename, fieldnames, data)
+    >>> write_csv(filename, fieldnames, data, mode=mode)
 
     Parameters
     ----------
@@ -40,6 +40,9 @@ def write_csv(filename, fieldnames, data=None, rows=None):
          {fieldname1: b1, fieldname2: b2},
          ...
          ]
+    mode : str
+        "w": write the data to the file by overwriting it
+        "a": write the data to the file by appending them
 
     Returns
     -------
@@ -55,18 +58,20 @@ def write_csv(filename, fieldnames, data=None, rows=None):
         raise ValueError(msg)
 
     header = dict((x, x) for x in fieldnames)
-    f = open(filename, "w")
+    f = open(filename, mode)
     if data:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writerow(header)
+        if mode == "w":
+            writer.writerow(header)
         writer.writerows(data)
     elif rows:
         writer = csv.writer(f)
-        writer.writerow(fieldnames)
+        if mode == "w":
+            writer.writerow(fieldnames)
         writer.writerows(rows)
 
     f.close()
-    print "Saved %s" % filename
+    print "Saved %s." % filename
 
 
 def format_to_csv(filename, skiprows=0):
@@ -93,7 +98,7 @@ def format_to_csv(filename, skiprows=0):
     
     input_file.close()
     output_file.close()
-    print "Saved %s" % new_filename
+    print "Saved %s." % new_filename
 
 
 def fus_to_csv(filename):
