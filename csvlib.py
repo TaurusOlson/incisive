@@ -100,8 +100,11 @@ def write_csv(filename, fieldnames, data=None, rows=None, mode="w"):
     print "Saved %s." % filename
 
 
-def format_to_csv(filename, skiprows=0):
+def format_to_csv(filename, skiprows=0, delimiter=""):
     """Convert a file to a .csv file"""
+    if not delimiter:
+        delimiter = "\t"
+
     input_file = open(filename, "r")
 
     if skiprows:
@@ -111,7 +114,7 @@ def format_to_csv(filename, skiprows=0):
     output_file = open(new_filename, "w")
 
     header = input_file.readline().split()
-    reader = csv.DictReader(input_file, fieldnames=header, delimiter="\t")
+    reader = csv.DictReader(input_file, fieldnames=header, delimiter=delimiter)
     writer = csv.DictWriter(output_file, fieldnames=header, delimiter=",")
     
     # Write header
