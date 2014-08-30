@@ -3,9 +3,32 @@
 
 import os
 import csv
+import itertools
 
 
-def read_csv(filename, delimiter=",", skip=0):
+# HELPER FUNCTIONS
+def is_type(_type, x):
+    try:
+        return str(_type(x)) == x
+    except ValueError:
+        return False
+
+
+def determine_type(x):
+    """Determine the type of x"""
+    types = (int, float, str)
+    _type = filter(lambda a: is_type(a, x), types)[0]
+    return _type(x)
+
+
+def dmap(fn, record):
+    """map for a directory"""
+    values = (fn(v) for k, v in record.items())
+    return dict(itertools.izip(record, values))
+
+
+# FUNCTIONS
+def read_csv(filename, delimiter=",", skip=0, guess_type=True):
     """Read a CSV file"""
     f = open(filename, 'r')
 
@@ -14,7 +37,10 @@ def read_csv(filename, delimiter=",", skip=0):
         f.readline()
 
     for line in csv.DictReader(f, delimiter=delimiter):
-        yield line
+        if guess_type:
+            yield dmap(determine_type, line)
+        else:
+            yield line
 
     f.close()
 
