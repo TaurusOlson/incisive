@@ -29,7 +29,13 @@ def dmap(fn, record):
 
 # FUNCTIONS
 def read_csv(filename, delimiter=",", skip=0, guess_type=True):
-    """Read a CSV file"""
+    """Read a CSV file
+    
+    Usage
+    -----
+    >>> data = read_csv(filename, delimiter=delimiter, skip=skip, guess_type=guess_type) 
+
+    """
     f = open(filename, 'r')
 
     # Skip the n first lines
@@ -61,12 +67,21 @@ def write_csv(filename, fieldnames, data=None, rows=None, mode="w"):
         The names of the columns (or fields):
         (fieldname1, fieldname2, ...)
 
-    data : list of dictionaries
-        [{fieldname1: a1, fieldname2: a2},
+    data : list of dictionaries (optional)
+        [
+         {fieldname1: a1, fieldname2: a2},
          {fieldname1: b1, fieldname2: b2},
          ...
-         ]
-    mode : str
+        ]
+
+    rows : list of lists (optional)
+        [
+        (a1, a2),
+        (b1, b2),
+        ...
+        ]
+
+    mode : str (optional)
         "w": write the data to the file by overwriting it
         "a": write the data to the file by appending them
 
@@ -136,5 +151,3 @@ def fus_to_csv(filename):
 
 def linelist_to_csv(filename):
     format_to_csv(filename, skiprows=0)
-
-
