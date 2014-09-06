@@ -143,11 +143,3 @@ def format_to_csv(filename, skiprows=0, delimiter=""):
     input_file.close()
     output_file.close()
     print "Saved %s." % new_filename
-
-
-def fus_to_csv(filename):
-    format_to_csv(filename, skiprows=2)
-
-
-def linelist_to_csv(filename):
-    format_to_csv(filename, skiprows=0)
