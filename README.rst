@@ -2,21 +2,39 @@
 CSVLIB
 ======
 
-**csvlib** is a tiny library for handling csv in Python. It's a wrapper for the csv module.
+**csvlib** is a tiny library for handling CSV in Python. It's a wrapper for the csv module.
 
 
-Usage
------
+* You can read a csv file like this::
 
-* Read a csv file::
+    >>> iris = read_csv("data/iris.csv")
+    >>> iris.next()
+    {'petal_length': 1.4,
+     'petal_width': 0.2,
+     'sepal_length': 5.1,
+     'sepal_width': 3.5,
+     'species': 'setosa'}
 
-    data = read_csv(filename)
-
-
-* Write a csv file::
-
-    write_csv(filename, fieldnames, data=data)
-
-    write_csv(filename, fieldnames, rows=rows)
+`read_csv` returns a generator. Note that `csvlib`, by default, tries to guess the type of the columns.
 
 
+* Writing a CSV file can be done in two ways:
+  
+    - with a list of dictionaries::
+
+        >>> data = [{'name': 'Lancelot', 'actor': 'John Cleese', 'color': 'blue'},
+                   {'name': 'Galahad', 'actor': 'Michael Palin', 'color': 'yellow'}]
+
+        >>> write_csv('bridge.csv', ('name', 'actor', 'color'), data=data)
+    
+    (the keys are the fieldnames of the CSV file.)
+
+    - or with just a list of rows::
+
+    >>> rows = [('Lancelot', 'John Cleese', 'blue'),
+                ('Galahad', 'Michael Palin', 'yellow')]
+
+    >>> write_csv('bridge.csv', ('name', 'actor', 'color'), rows=rows)
+
+Note that this second method requires that your fieldnames correspond exactly
+to the elements of your rows.
