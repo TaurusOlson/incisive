@@ -28,21 +28,31 @@ def dmap(fn, record):
 
 
 # FUNCTIONS
-def read_csv(filename, delimiter=",", skip=0, guess_type=True):
+def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True):
     """Read a CSV file
     
     Usage
     -----
-    >>> data = read_csv(filename, delimiter=delimiter, skip=skip, guess_type=guess_type) 
+    >>> data = read_csv(filename, delimiter=delimiter, skip=skip,
+            guess_type=guess_type, has_header=True) 
+
+    keywords
+    :has_header:
+        Determine whether the file has a header or not
 
     """
     f = open(filename, 'r')
 
     # Skip the n first lines
+    if has_header:
+        header = f.readline().split(delimiter)
+    else:
+        header = None
+
     for i in range(skip):
         f.readline()
 
-    for line in csv.DictReader(f, delimiter=delimiter):
+    for line in csv.DictReader(f, delimiter=delimiter, fieldnames=header):
         if guess_type:
             yield dmap(determine_type, line)
         else:
@@ -51,19 +61,19 @@ def read_csv(filename, delimiter=",", skip=0, guess_type=True):
     f.close()
 
 
-def write_csv(filename, fieldnames, data=None, rows=None, mode="w"):
+def write_csv(filename, header, data=None, rows=None, mode="w"):
     """Write the data to the specified filename
     
     Usage
     -----
-    >>> write_csv(filename, fieldnames, data, mode=mode)
+    >>> write_csv(filename, header, data, mode=mode)
 
     Parameters
     ----------
     filename : str
         The name of the file
 
-    fieldnames : list of strings
+    header : list of strings
         The names of the columns (or fields):
         (fieldname1, fieldname2, ...)
 
@@ -98,17 +108,17 @@ def write_csv(filename, fieldnames, data=None, rows=None, mode="w"):
         msg = "You must specify either data or rows. Not both"
         raise ValueError(msg)
 
-    header = dict((x, x) for x in fieldnames)
+    data_header = dict((x, x) for x in header)
     f = open(filename, mode)
     if data:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=header)
         if mode == "w":
-            writer.writerow(header)
+            writer.writerow(data_header)
         writer.writerows(data)
     elif rows:
         writer = csv.writer(f)
         if mode == "w":
-            writer.writerow(fieldnames)
+            writer.writerow(header)
         writer.writerows(rows)
 
     f.close()
