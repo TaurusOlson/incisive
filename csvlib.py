@@ -27,14 +27,38 @@ def dmap(fn, record):
     return dict(itertools.izip(record, values))
 
 
+def force_type(_type, x):
+    if _type is int:
+        return int(float(x))
+    else:
+        return _type(x)
+
+
+def apply_types(use_types, guess_type, line):
+    """Apply the types on the elements of the line"""
+    new_line = {}
+    for k, v in line.items():
+        if use_types.has_key(k):
+            new_line[k] = force_type(use_types[k], v)
+        elif guess_type:
+            new_line[k] = determine_type(v)
+        else:
+            new_line[k] = v
+    return new_line
+
+
 # FUNCTIONS
-def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True):
+def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True, use_types={}):
     """Read a CSV file
     
     Usage
     -----
     >>> data = read_csv(filename, delimiter=delimiter, skip=skip,
-            guess_type=guess_type, has_header=True) 
+            guess_type=guess_type, has_header=True, use_types={}) 
+
+    # Use specific types
+    >>> types = {"sepal.length": int, "petal.width": float}
+    >>> data = read_csv(filename, guess_type=guess_type, use_types=types) 
 
     keywords
     :has_header:
@@ -45,7 +69,7 @@ def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True):
 
     # Skip the n first lines
     if has_header:
-        header = f.readline().split(delimiter)
+        header = f.readline().strip().split(delimiter)
     else:
         header = None
 
@@ -53,7 +77,9 @@ def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True):
         f.readline()
 
     for line in csv.DictReader(f, delimiter=delimiter, fieldnames=header):
-        if guess_type:
+        if use_types:
+            yield apply_types(use_types, guess_type, line)
+        elif guess_type:
             yield dmap(determine_type, line)
         else:
             yield line
