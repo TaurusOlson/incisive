@@ -38,3 +38,11 @@ CSVLIB
 
 Note that this second method requires that your fieldnames correspond exactly
 to the elements of your rows.
+
+
+Features
+--------
+
+* Simple API
+* Guess the types when it's possible 
+* Accept functions to specify the types
