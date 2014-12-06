@@ -1,5 +1,5 @@
 from setuptools import setup
-import csvlib
+import csvtools
 
 
 def readme():
@@ -7,8 +7,8 @@ def readme():
         return f.read()
 
 
-setup(name='csvlib',
-      version=csvlib.__version__,
+setup(name='csvtools',
+      version=csvtools.__version__,
       description='A tiny library for handling CSV files.',
       long_description=readme(),
       classifiers=[
@@ -17,10 +17,10 @@ setup(name='csvlib',
           ],
       author='Taurus Olson',
       author_email=u'taurusolson@gmail.com',
-      url='https://github.com/TaurusOlson/csvlib',
-      packages=['csvlib'],
+      url='https://github.com/TaurusOlson/csvtools',
+      packages=['csvtools'],
       keywords='csv tools',
-      license=csvlib.__license__,
+      license=csvtools.__license__,
       include_package_data=True,
       zip_safe=False
       )

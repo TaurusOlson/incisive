@@ -1,8 +1,8 @@
-======
-CSVLIB
-======
+========
+csvtools
+========
 
-**csvlib** is a tiny library for handling CSV in Python. It's a wrapper for the csv module.
+**csvtools** is a tiny library for handling CSV in Python. It's a wrapper for the csv module.
 
 
 * You can read a csv file like this::
@@ -15,7 +15,7 @@ CSVLIB
      'sepal_width': 3.5,
      'species': 'setosa'}
 
-`read_csv` returns a generator. Note that `csvlib`, by default, tries to guess the type of the columns.
+`read_csv` returns a generator. Note that `csvtools`, by default, tries to guess the type of the columns.
 
 
 * Writing a CSV file can be done in two ways:
