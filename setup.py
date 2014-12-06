@@ -21,7 +21,7 @@ setup(name='csvlib',
       url='https://github.com/TaurusOlson/csvlib',
       packages=['csvlib'],
       keywords='csv tools',
-      license=fntools.__license__,
+      license=csvlib.__license__,
       include_package_data=True,
       zip_safe=False
       )
