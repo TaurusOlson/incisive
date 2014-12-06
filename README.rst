@@ -27,7 +27,7 @@ CSVLIB
 
         >>> write_csv('bridge.csv', ('name', 'actor', 'color'), data=data)
     
-    (the keys are the fieldnames of the CSV file.)
+    (the keys are the field names of the CSV file.)
 
     - or with just a list of rows::
 
@@ -36,7 +36,7 @@ CSVLIB
 
     >>> write_csv('bridge.csv', ('name', 'actor', 'color'), rows=rows)
 
-Note that this second method requires that your fieldnames correspond exactly
+Note that this second method requires that your field names correspond exactly
 to the elements of your rows.
 
 

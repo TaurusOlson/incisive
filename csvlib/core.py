@@ -1,9 +1,13 @@
 """Tiny library for handling csv"""
 
+from __future__ import with_statement
 
 import os
 import csv
 import itertools
+
+
+__all__ = ("read_csv", "write_csv", "format_to_csv")
 
 
 # HELPER FUNCTIONS
@@ -65,26 +69,23 @@ def read_csv(filename, delimiter=",", skip=0, guess_type=True, has_header=True, 
         Determine whether the file has a header or not
 
     """
-    f = open(filename, 'r')
-
-    # Skip the n first lines
-    if has_header:
-        header = f.readline().strip().split(delimiter)
-    else:
-        header = None
-
-    for i in range(skip):
-        f.readline()
-
-    for line in csv.DictReader(f, delimiter=delimiter, fieldnames=header):
-        if use_types:
-            yield apply_types(use_types, guess_type, line)
-        elif guess_type:
-            yield dmap(determine_type, line)
+    with open(filename, 'r') as f:
+        # Skip the n first lines
+        if has_header:
+            header = f.readline().strip().split(delimiter)
         else:
-            yield line
+            header = None
 
-    f.close()
+        for i in range(skip):
+            f.readline()
+
+        for line in csv.DictReader(f, delimiter=delimiter, fieldnames=header):
+            if use_types:
+                yield apply_types(use_types, guess_type, line)
+            elif guess_type:
+                yield dmap(determine_type, line)
+            else:
+                yield line
 
 
 def write_csv(filename, header, data=None, rows=None, mode="w"):
@@ -135,19 +136,19 @@ def write_csv(filename, header, data=None, rows=None, mode="w"):
         raise ValueError(msg)
 
     data_header = dict((x, x) for x in header)
-    f = open(filename, mode)
-    if data:
-        writer = csv.DictWriter(f, fieldnames=header)
-        if mode == "w":
-            writer.writerow(data_header)
-        writer.writerows(data)
-    elif rows:
-        writer = csv.writer(f)
-        if mode == "w":
-            writer.writerow(header)
-        writer.writerows(rows)
 
-    f.close()
+    with open(filename, mode) as f:
+        if data:
+            writer = csv.DictWriter(f, fieldnames=header)
+            if mode == "w":
+                writer.writerow(data_header)
+            writer.writerows(data)
+        elif rows:
+            writer = csv.writer(f)
+            if mode == "w":
+                writer.writerow(header)
+            writer.writerows(rows)
+
     print "Saved %s." % filename
 
 
