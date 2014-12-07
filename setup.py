@@ -1,16 +1,15 @@
 from setuptools import setup
+from codecs import open
 import csvtools
 
 
-def readme():
-    with open('README.rst') as f:
-        return f.read()
+readme = open('README.rst').read()
 
 
 setup(name='csvtools',
       version=csvtools.__version__,
       description='A tiny library for handling CSV files.',
-      long_description=readme(),
+      long_description=readme,
       classifiers=[
         'Programming Language :: Python :: 2.7',
         'Topic :: Utilities',
