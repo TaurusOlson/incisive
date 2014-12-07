@@ -1,7 +1,6 @@
 csvtools
 ========
 
-
 **csvtools** is a tiny library for handling CSV in Python. It's a wrapper for the csv module.
 
 
@@ -23,19 +22,19 @@ Usage
 
 * Writing a CSV file can be done in two ways:
   
-    - with a list of dictionaries::
+1. with a list of dictionaries::
 
-        >>> data = [{'name': 'Lancelot', 'actor': 'John Cleese', 'color': 'blue'},
-                   {'name': 'Galahad', 'actor': 'Michael Palin', 'color': 'yellow'}]
+    >>> data = [{'name': 'Lancelot', 'actor': 'John Cleese', 'color': 'blue'},
+               {'name': 'Galahad', 'actor': 'Michael Palin', 'color': 'yellow'}]
 
-        >>> write_csv('bridge.csv', ('name', 'actor', 'color'), data=data)
-    
-    (the keys are the field names of the CSV file.)
+    >>> write_csv('bridge.csv', ('name', 'actor', 'color'), data=data)
 
-    - or with just a list of rows::
+(the keys are the field names of the CSV file.)
+
+2. or with just a list of rows::
 
     >>> rows = [('Lancelot', 'John Cleese', 'blue'),
-                ('Galahad', 'Michael Palin', 'yellow')]
+            ('Galahad', 'Michael Palin', 'yellow')]
 
     >>> write_csv('bridge.csv', ('name', 'actor', 'color'), rows=rows)
 
