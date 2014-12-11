@@ -1,5 +1,5 @@
 from setuptools import setup
-import csvtools
+import incisive
 
 
 def read(fname):
@@ -8,8 +8,8 @@ def read(fname):
     return content
 
 
-setup(name='csvtools',
-      version=csvtools.__version__,
+setup(name='incisive',
+      version=incisive.__version__,
       description='A tiny library for handling CSV files.',
       long_description=read('README.rst'),
       classifiers=[
@@ -18,10 +18,10 @@ setup(name='csvtools',
           ],
       author='Taurus Olson',
       author_email=u'taurusolson@gmail.com',
-      url='https://github.com/TaurusOlson/csvtools',
-      packages=['csvtools'],
+      url='https://github.com/TaurusOlson/incisive',
+      packages=['incisive'],
       keywords='csv tools',
-      license=csvtools.__license__,
+      license=incisive.__license__,
       include_package_data=True,
       zip_safe=False
       )
